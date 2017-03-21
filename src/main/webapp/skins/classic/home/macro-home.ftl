@@ -32,10 +32,6 @@
         <@head title="${followersLabel} - ${user.userName} - ${symphonyLabel}">
         <meta name="description" content="${user.userName}${deLabel}${followersLabel}"/>
         </@head>
-        <#elseif type == "points">
-        <@head title="${pointLabel} - ${user.userName} - ${symphonyLabel}">
-        <meta name="description" content="${user.userName}${deLabel}${pointLabel}"/>
-        </@head>
         <#elseif type == "settings">
         <@head title="${settingsLabel} - ${user.userName} - ${symphonyLabel}">
         <meta name="description" content="${user.userName}${deLabel}${settingsLabel}"/>
@@ -76,8 +72,6 @@
                                     href="${servePath}/member/${user.userName}"><svg height="18" viewBox="0 1 16 16" width="16">${boolIcon}</svg> ${postLabel}</a>
                                 <a <#if type == "followingUsers" || type == "followingTags" || type == "followingArticles" || type == "followers"> class="current"</#if>
                                     href="${servePath}/member/${user.userName}/watching/articles"><svg height="18" viewBox="0 1 14 16" width="14">${starIcon}</svg> ${followLabel}</a>
-                                <a <#if type == "points"> class="current"</#if> href="${servePath}/member/${user.userName}/points">
-                                    <svg height="18" viewBox="0 1 14 16" width="14">${giftIcon}</svg> ${pointLabel}</a>
                                 <a <#if type == "linkForge"> class="current"</#if> href="${servePath}/member/${user.userName}/forge/link">
                                     <svg height="18" viewBox="0 1 16 16" width="16">${baguaIcon}</svg>  ${forgeLabel}</a>
                                 <#if currentUser?? && currentUser.userName == user.userName>

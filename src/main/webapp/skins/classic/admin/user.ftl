@@ -27,9 +27,6 @@
             <label>${tagCountLabel}</label>
             <input type="text" value="${user.userTagCount}" readonly="readonly" />
 
-            <label>${pointLabel}</label>
-            <input type="text" value="${user.userPoint?c}" readonly="readonly" />
-
             <label>${countryLabel}</label>
             <input type="text" value="${user.userCountry}" readonly="readonly" />
 
@@ -173,12 +170,6 @@
                     <option value="1"<#if 1 == user.userFollowerStatus> selected</#if>>${privateLabel}</option>
                 </select>
 
-                <label>${userPointStatusLabel}</label>
-                <select id="userPointStatus" name="userPointStatus">
-                    <option value="0"<#if 0 == user.userPointStatus> selected</#if>>${publicLabel}</option>
-                    <option value="1"<#if 1 == user.userPointStatus> selected</#if>>${privateLabel}</option>
-                </select>
-
                 <label>${userOnlineStatusLabel}</label>
                 <select id="userOnlineStatus" name="userOnlineStatus">
                     <option value="0"<#if 0 == user.userOnlineStatus> selected</#if>>${publicLabel}</option>
@@ -279,72 +270,6 @@
             <form action="${servePath}/admin/user/${user.oId}/username" method="POST">
                 <label for="userName">${userNameLabel}</label>
                 <input type="text" name="userName" value="${user.userName}" />
-
-                <br/><br/>
-                <button type="submit" class="green fn-right">${submitLabel}</button>
-            </form>
-        </div>
-    </div>
-    </#if>
-
-    <#if permissions["userAddPoint"].permissionGrant>
-    <div class="module">
-        <div class="module-header">
-            <h2>${chargePointLabel}</h2>
-        </div>
-        <div class="module-panel form fn-clear">
-            <form action="${servePath}/admin/user/${user.oId}/charge-point" method="POST">
-                <label>${userNameLabel}</label>
-                <input type="text" name="userName" value="${user.userName}" readonly="readonly" />
-
-                <label>${pointLabel}</label>
-                <input type="text" name="point" value="" />
-
-                <label>${memoLabel}</label>
-                <input type="text" name="memo" value="" placeholder="${chargePointPlaceholderLabel}" />
-
-                <br/><br/>
-                <button type="submit" class="green fn-right">${submitLabel}</button>
-            </form>
-        </div>
-    </div>
-    </#if>
-
-    <#if permissions["userExchangePoint"].permissionGrant>
-    <div class="module">
-        <div class="module-header">
-            <h2>${exchangePointLabel}</h2>
-        </div>
-        <div class="module-panel form fn-clear">
-            <form action="${servePath}/admin/user/${user.oId}/exchange-point" method="POST">
-                <label>${userNameLabel}</label>
-                <input type="text" name="userName" value="${user.userName}" readonly="readonly" />
-
-                <label>${pointLabel}</label>
-                <input type="text" name="point" value="" />
-
-                <br/><br/>
-                <button type="submit" class="green fn-right">${submitLabel}</button>
-            </form>
-        </div>
-    </div>
-    </#if>
-
-    <#if permissions["userDeductPoint"].permissionGrant>
-    <div class="module">
-        <div class="module-header">
-            <h2>${abusePointLabel}</h2>
-        </div>
-        <div class="module-panel form fn-clear">
-            <form action="${servePath}/admin/user/${user.oId}/abuse-point" method="POST">
-                <label>${userNameLabel}</label>
-                <input type="text" name="userName" value="${user.userName}" readonly="readonly" />
-
-                <label>${pointLabel}</label>
-                <input type="text" name="point" value="" />
-
-                <label>${memoLabel}</label>
-                <input type="text" name="memo" value="" />
 
                 <br/><br/>
                 <button type="submit" class="green fn-right">${submitLabel}</button>

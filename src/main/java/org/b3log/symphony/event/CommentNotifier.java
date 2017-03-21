@@ -123,12 +123,6 @@ public class CommentNotifier extends AbstractEventListener<JSONObject> {
     private TimelineMgmtService timelineMgmtService;
 
     /**
-     * Pointtransfer management service.
-     */
-    @Inject
-    private PointtransferMgmtService pointtransferMgmtService;
-
-    /**
      * Comment query service.
      */
     @Inject
@@ -337,10 +331,6 @@ public class CommentNotifier extends AbstractEventListener<JSONObject> {
 
                     notificationMgmtService.addAtNotification(requestJSONObject);
                 }
-
-                final int sum = count * Pointtransfer.TRANSFER_SUM_C_AT_PARTICIPANTS;
-                pointtransferMgmtService.transfer(commenterId, Pointtransfer.ID_C_SYS,
-                        Pointtransfer.TRANSFER_TYPE_C_AT_PARTICIPANTS, sum, commentId, System.currentTimeMillis());
 
                 return;
             }

@@ -476,72 +476,6 @@ var Comment = {
         }
     },
     /**
-     * @description 感谢评论.
-     * @param {String} id 评论 id
-     * @param {String} csrfToken CSRF 令牌
-     * @param {String} tip 确认提示
-     * @param {Integer} 0：公开评论，1：匿名评论
-     */
-    thank: function (id, csrfToken, tip, commentAnonymous, it) {
-        if (!Label.isLoggedIn) {
-            Util.needLogin();
-            return false;
-        }
-
-        // 匿名回帖不需要进行 confirm
-        if (0 === commentAnonymous && !confirm(tip)) {
-            return false;
-        }
-
-        var requestJSONObject = {
-            commentId: id
-        };
-
-        $.ajax({
-            url: Label.servePath + "/comment/thank",
-            type: "POST",
-            headers: {"csrfToken": csrfToken},
-            cache: false,
-            data: JSON.stringify(requestJSONObject),
-            error: function (jqXHR, textStatus, errorThrown) {
-                alert(errorThrown);
-            },
-            success: function (result, textStatus) {
-                if (result.sc) {
-                    $(it).removeAttr('onclick');
-                    var $heart = $("<i class='icon-heart ft-red'></i>"),
-                            y = $(it).offset().top,
-                            x = $(it).offset().left;
-                    $heart.css({
-                        "z-index": 9999,
-                        "top": y,
-                        "left": x,
-                        "position": "absolute",
-                        "font-size": 16,
-                        "-moz-user-select": "none",
-                        "-webkit-user-select": "none",
-                        "-ms-user-select": "none"
-                    });
-                    $("body").append($heart);
-
-                    $heart.animate({"left": x - 150, "top": y - 60, "opacity": 0},
-                            1000,
-                            function () {
-                                var cnt = parseInt($(it).text());
-
-                                $(it).html('<span class="icon-heart"></span> ' + (cnt + 1)).addClass('ft-red');
-
-                                $heart.remove();
-                            }
-                    );
-
-                } else {
-                    alert(result.msg);
-                }
-            }
-        });
-    },
-    /**
      * @description 展现回帖回复列表
      * @param {type} id 回帖 id
      * @returns {Boolean}
@@ -1124,64 +1058,6 @@ var Article = {
                 }
             });
         }
-    },
-    /**
-     * @description 感谢文章
-     */
-    thankArticle: function (articleId, articleAnonymous) {
-        if (!Label.isLoggedIn) {
-            Util.needLogin();
-            return false;
-        }
-
-        // 匿名贴不需要 confirm
-        if (0 === articleAnonymous && !confirm(Label.thankArticleConfirmLabel)) {
-            return false;
-        }
-
-        if (Label.currentUserName === Label.articleAuthorName) {
-            alert(Label.thankSelfLabel);
-            return false;
-        }
-
-        $.ajax({
-            url: Label.servePath + "/article/thank?articleId=" + articleId,
-            type: "POST",
-            cache: false,
-            success: function (result, textStatus) {
-                if (result.sc) {
-                    var thxCnt = parseInt($('#thankArticle').text());
-                    $("#thankArticle").removeAttr("onclick").html('<span class="icon-heart"></span> ' + (thxCnt + 1))
-                    .addClass('ft-red');
-
-                    var $heart = $("<i class='icon-heart ft-red'></i>"),
-                            y = $('#thankArticle').offset().top,
-                            x = $('#thankArticle').offset().left;
-                    $heart.css({
-                        "z-index": 9999,
-                        "top": y - 20,
-                        "left": x,
-                        "position": "absolute",
-                        "font-size": 16,
-                        "-moz-user-select": "none",
-                        "-webkit-user-select": "none",
-                        "-ms-user-select": "none"
-                    });
-                    $("body").append($heart);
-
-                    $heart.animate({"top": y - 180, "opacity": 0},
-                            1500,
-                            function () {
-                                $heart.remove();
-                            }
-                    );
-
-                    return false;
-                }
-
-                alert(result.msg);
-            }
-        });
     },
     /**
      * @description 置顶

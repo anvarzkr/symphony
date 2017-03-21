@@ -44,10 +44,6 @@
                     </div>
                     </#if>
                 </div>
-                <button id="showReward" class="fn-ellipsis"<#if requisite> readonly disabled</#if>
-                onclick="$(this).next().show(); $(this).hide()">
-                    ${rewardEditorPlaceholderLabel} &dtrif;
-                </button>
                 <div class="fn-none">
                     <div class="fn-clear article-reward-content">
                         <textarea id="articleRewardContent" tabindex="4"
@@ -107,7 +103,7 @@
                     <span class="ft-gray">${addDiscussionArticleTipLabel}</span>
                     <#elseif 2 == articleType>
                     <span class="icon-feed"></span> ${cityBroadcastLabel}
-                    <span class="ft-gray">${addCityArticleTipLabel} <i>${broadcastPoint}</i> ${pointLabel}</span>
+                    <span class="ft-gray">${addCityArticleTipLabel}</span>
                     <#elseif 3 == articleType>
                     <span class="icon-video"></span> ${thoughtLabel}
                     <span class="ft-gray">${addThoughtArticleTipLabel}

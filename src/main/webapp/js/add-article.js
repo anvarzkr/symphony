@@ -82,9 +82,7 @@ var AddArticle = {
                 url = url + "/" + Label.articleOId;
                 type = "PUT";
             }
-
-            alert(url);
-
+            
             $.ajax({
                 url: url,
                 type: type,

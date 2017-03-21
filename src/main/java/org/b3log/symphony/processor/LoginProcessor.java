@@ -107,11 +107,6 @@ public class LoginProcessor {
     @Inject
     private LangPropsService langPropsService;
     /**
-     * Pointtransfer management service.
-     */
-    @Inject
-    private PointtransferMgmtService pointtransferMgmtService;
-    /**
      * Data model service.
      */
     @Inject
@@ -642,13 +637,7 @@ public class LoginProcessor {
                 final JSONObject referralUser = userQueryService.getUserByName(referral);
                 if (null != referralUser) {
                     final String referralId = referralUser.optString(Keys.OBJECT_ID);
-                    // Point
-                    pointtransferMgmtService.transfer(Pointtransfer.ID_C_SYS, userId,
-                            Pointtransfer.TRANSFER_TYPE_C_INVITED_REGISTER,
-                            Pointtransfer.TRANSFER_SUM_C_INVITE_REGISTER, referralId, System.currentTimeMillis());
-                    pointtransferMgmtService.transfer(Pointtransfer.ID_C_SYS, referralId,
-                            Pointtransfer.TRANSFER_TYPE_C_INVITE_REGISTER,
-                            Pointtransfer.TRANSFER_SUM_C_INVITE_REGISTER, userId, System.currentTimeMillis());
+
 
                     final JSONObject notification = new JSONObject();
                     notification.put(Notification.NOTIFICATION_USER_ID, referralId);
@@ -668,10 +657,7 @@ public class LoginProcessor {
                 invitecodeMgmtService.updateInvitecode(icId, ic);
 
                 final String icGeneratorId = ic.optString(Invitecode.GENERATOR_ID);
-                if (StringUtils.isNotBlank(icGeneratorId) && !Pointtransfer.ID_C_SYS.equals(icGeneratorId)) {
-                    pointtransferMgmtService.transfer(Pointtransfer.ID_C_SYS, icGeneratorId,
-                            Pointtransfer.TRANSFER_TYPE_C_INVITECODE_USED,
-                            Pointtransfer.TRANSFER_SUM_C_INVITECODE_USED, userId, System.currentTimeMillis());
+                if (StringUtils.isNotBlank(icGeneratorId)) {
 
                     final JSONObject notification = new JSONObject();
                     notification.put(Notification.NOTIFICATION_USER_ID, icGeneratorId);

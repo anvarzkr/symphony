@@ -296,51 +296,6 @@ public class CommentProcessor {
     }
 
     /**
-     * Thanks a comment.
-     * <p>
-     * The request json object:
-     * <pre>
-     * {
-     *     "commentId": "",
-     * }
-     * </pre>
-     * </p>
-     *
-     * @param context  the specified context
-     * @param request  the specified request
-     * @param response the specified response
-     * @throws IOException      io exception
-     * @throws ServletException servlet exception
-     */
-    @RequestProcessing(value = "/comment/thank", method = HTTPRequestMethod.POST)
-    @Before(adviceClass = {LoginCheck.class, CSRFCheck.class, PermissionCheck.class})
-    public void thankComment(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response)
-            throws IOException, ServletException {
-        context.renderJSON();
-
-        JSONObject requestJSONObject;
-        try {
-            requestJSONObject = Requests.parseRequestJSONObject(request, context.getResponse());
-            request.setAttribute(Keys.REQUEST, requestJSONObject);
-        } catch (final Exception e) {
-            LOGGER.log(Level.ERROR, "Thank comment error", e);
-
-            return;
-        }
-
-        final JSONObject currentUser = (JSONObject) request.getAttribute(User.USER);
-        final String commentId = requestJSONObject.optString(Comment.COMMENT_T_ID);
-
-        try {
-            commentMgmtService.thankComment(commentId, currentUser.optString(Keys.OBJECT_ID));
-
-            context.renderTrueResult().renderMsg(langPropsService.get("thankSentLabel"));
-        } catch (final ServiceException e) {
-            context.renderMsg(e.getMessage());
-        }
-    }
-
-    /**
      * Adds a comment remotely.
      * <p>
      * The request json object (a comment):

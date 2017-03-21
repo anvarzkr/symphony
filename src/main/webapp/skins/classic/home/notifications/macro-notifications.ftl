@@ -73,12 +73,6 @@
                                     </span>
                                     </#if>
                                 </a>
-                                <a href="${servePath}/notifications/point"<#if type == "point"> class="current"</#if>>
-                                   <span>${pointLabel}</span>
-                                    <#if unreadPointNotificationCnt &gt; 0>
-                                    <span class="count">${unreadPointNotificationCnt}</span>
-                                    </#if>
-                                </a>
                                 <a href="${servePath}/notifications/broadcast"<#if type == "broadcast"> class="current"</#if>>
                                    <span>${sameCityLabel}</span>
                                     <#if unreadBroadcastNotificationCnt &gt; 0>

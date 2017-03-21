@@ -194,10 +194,6 @@ var Activity = {
         EatingSnake.initMap('oMark', 'snakeCanvas');
     },
     startSnake: function (csrfToken) {
-        if (!confirm(Label.activityStartEatingSnakeTipLabel)) {
-            return;
-        }
-
         $(document).unbind("keyup");
 
         EatingSnake.start(csrfToken);

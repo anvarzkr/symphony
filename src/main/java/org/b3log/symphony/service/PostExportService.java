@@ -39,7 +39,6 @@ import org.b3log.latke.repository.RepositoryException;
 import org.b3log.latke.service.annotation.Service;
 import org.b3log.symphony.model.Article;
 import org.b3log.symphony.model.Comment;
-import org.b3log.symphony.model.Pointtransfer;
 import org.b3log.symphony.model.UserExt;
 import org.b3log.symphony.repository.ArticleRepository;
 import org.b3log.symphony.repository.CommentRepository;
@@ -80,12 +79,6 @@ public class PostExportService {
      */
     @Inject
     private CommentRepository commentRepository;
-
-    /**
-     * Pointtransfer management service.
-     */
-    @Inject
-    private PointtransferMgmtService pointtransferMgmtService;
 
     /**
      * Exports all posts of a user's specified with the given user id.
@@ -177,13 +170,6 @@ public class PostExportService {
         }
 
         LOGGER.info("Exporting posts [size=" + posts.length() + "]");
-
-        final boolean succ = null != pointtransferMgmtService.transfer(userId, Pointtransfer.ID_C_SYS,
-                Pointtransfer.TRANSFER_TYPE_C_DATA_EXPORT, Pointtransfer.TRANSFER_SUM_C_DATA_EXPORT,
-                String.valueOf(posts.length()), System.currentTimeMillis());
-        if (!succ) {
-            return null;
-        }
 
         final String uuid = UUID.randomUUID().toString().replaceAll("-", "");
         String fileKey = "export/" + userId + "/" + uuid + ".zip";

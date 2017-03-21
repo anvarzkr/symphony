@@ -1557,46 +1557,6 @@ public class ArticleProcessor {
     }
 
     /**
-     * Article thanks.
-     *
-     * @param request  the specified http servlet request
-     * @param response the specified http servlet response
-     * @param context  the specified http request context
-     * @throws Exception exception
-     */
-    @RequestProcessing(value = "/article/thank", method = HTTPRequestMethod.POST)
-    @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
-    @After(adviceClass = StopwatchEndAdvice.class)
-    public void thank(final HttpServletRequest request, final HttpServletResponse response, final HTTPRequestContext context)
-            throws Exception {
-        final JSONObject currentUser = userQueryService.getCurrentUser(request);
-        if (null == currentUser) {
-            response.sendError(HttpServletResponse.SC_FORBIDDEN);
-
-            return;
-        }
-
-        final String articleId = request.getParameter(Article.ARTICLE_T_ID);
-        if (Strings.isEmptyOrNull(articleId)) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-
-            return;
-        }
-
-        context.renderJSON();
-
-        try {
-            articleMgmtService.thank(articleId, currentUser.optString(Keys.OBJECT_ID));
-        } catch (final ServiceException e) {
-            context.renderMsg(langPropsService.get("transferFailLabel"));
-
-            return;
-        }
-
-        context.renderTrueResult();
-    }
-
-    /**
      * Sticks an article.
      *
      * @param request  the specified HTTP servlet request

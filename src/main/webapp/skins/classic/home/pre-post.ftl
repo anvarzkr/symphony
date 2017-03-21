@@ -40,7 +40,7 @@
                         <div class="icon-feed"></div>
                         ${cityBroadcastLabel}
                     </a>
-                    <div class="ft-fade">${addCityArticleTipLabel} <i>${broadcastPoint}</i> ${pointLabel}</div>
+                    <div class="ft-fade">${addCityArticleTipLabel}</div>
                 </div>
             </div>
         </div>

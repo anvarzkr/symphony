@@ -51,12 +51,6 @@
                     </#if>
                     <span class="fn-right fn-hidden hover-show action-btns">
                         <#assign hasRewarded = isLoggedIn && comment.commentAuthorId != currentUser.oId && comment.rewarded>
-                        <span class="tooltipped tooltipped-n <#if hasRewarded>ft-red</#if>" aria-label="${thankLabel}"
-                        <#if !hasRewarded && permissions["commonThankComment"].permissionGrant>
-                            onclick="Comment.thank('${comment.oId}', '${csrfToken}', '${comment.commentThankLabel}', ${comment.commentAnonymous}, this)"
-                        <#else>
-                              onclick="Article.permissionTip(Label.noPermissionLabel)"
-                        </#if>><span class="icon-heart"></span> ${comment.rewardedCnt}</span> &nbsp;
                     <span class="tooltipped tooltipped-n<#if isLoggedIn && 0 == comment.commentVote> ft-red</#if>"
                           aria-label="${upLabel}"
                     <#if permissions["commonGoodComment"].permissionGrant>

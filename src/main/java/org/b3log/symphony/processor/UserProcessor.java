@@ -405,10 +405,6 @@ public class UserProcessor {
         inviteTipLabel = inviteTipLabel.replace("{point}", String.valueOf(Pointtransfer.TRANSFER_SUM_C_INVITE_REGISTER));
         dataModel.put("inviteTipLabel", inviteTipLabel);
 
-        String pointTransferTipLabel = (String) dataModel.get("pointTransferTipLabel");
-        pointTransferTipLabel = pointTransferTipLabel.replace("{point}", Symphonys.get("pointTransferMin"));
-        dataModel.put("pointTransferTipLabel", pointTransferTipLabel);
-
         String dataExportTipLabel = (String) dataModel.get("dataExportTipLabel");
         dataExportTipLabel = dataExportTipLabel.replace("{point}",
                 String.valueOf(Pointtransfer.TRANSFER_SUM_C_DATA_EXPORT));

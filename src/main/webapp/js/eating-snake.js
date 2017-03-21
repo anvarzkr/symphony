@@ -307,8 +307,7 @@ var EatingSnake = {
         EatingSnake.updateSnake();
         EatingSnake.drawMap();
 //        EatingSnake.oMark.innerHtml = EatingSnake.snake.length - EatingSnake.baseLen;
-    },
-    start: function (csrfToken) {
+    }, start: function (csrfToken) {
 
         window.addEventListener('keydown', function (event) {
             // 如果游戏的时候时使用方向键

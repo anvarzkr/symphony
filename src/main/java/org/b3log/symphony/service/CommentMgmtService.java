@@ -42,7 +42,6 @@ import org.b3log.symphony.model.Common;
 import org.b3log.symphony.model.Liveness;
 import org.b3log.symphony.model.Notification;
 import org.b3log.symphony.model.Option;
-import org.b3log.symphony.model.Pointtransfer;
 import org.b3log.symphony.model.Reward;
 import org.b3log.symphony.model.Role;
 import org.b3log.symphony.model.Tag;
@@ -126,12 +125,6 @@ public class CommentMgmtService {
      */
     @Inject
     private LangPropsService langPropsService;
-
-    /**
-     * Pointtransfer management service.
-     */
-    @Inject
-    private PointtransferMgmtService pointtransferMgmtService;
 
     /**
      * Reward management service.
@@ -237,22 +230,11 @@ public class CommentMgmtService {
                 throw new ServiceException(langPropsService.get("thankSelfLabel"));
             }
 
-            final int rewardPoint = Symphonys.getInt("pointThankComment");
-
             if (rewardQueryService.isRewarded(senderId, commentId, Reward.TYPE_C_COMMENT)) {
                 return;
             }
 
             final String rewardId = Ids.genTimeMillisId();
-
-            if (Comment.COMMENT_ANONYMOUS_C_PUBLIC == comment.optInt(Comment.COMMENT_ANONYMOUS)) {
-                final boolean succ = null != pointtransferMgmtService.transfer(senderId, receiverId,
-                        Pointtransfer.TRANSFER_TYPE_C_COMMENT_REWARD, rewardPoint, rewardId, System.currentTimeMillis());
-
-                if (!succ) {
-                    throw new ServiceException(langPropsService.get("transferFailLabel"));
-                }
-            }
 
             final JSONObject reward = new JSONObject();
             reward.put(Keys.OBJECT_ID, rewardId);
@@ -329,33 +311,7 @@ public class CommentMgmtService {
                 throw new ServiceException(langPropsService.get("notAllowAddCommentLabel"));
             }
 
-            final int balance = commenter.optInt(UserExt.USER_POINT);
-
-            if (Comment.COMMENT_ANONYMOUS_C_ANONYMOUS == commentAnonymous) {
-                final int anonymousPoint = Symphonys.getInt("anonymous.point");
-                if (balance < anonymousPoint) {
-                    String anonymousEnabelPointLabel = langPropsService.get("anonymousEnabelPointLabel");
-                    anonymousEnabelPointLabel
-                            = anonymousEnabelPointLabel.replace("${point}", String.valueOf(anonymousPoint));
-                    throw new ServiceException(anonymousEnabelPointLabel);
-                }
-            }
-
             article = articleRepository.get(articleId);
-
-            if (!fromClient && !TuringQueryService.ROBOT_NAME.equals(commenterName)) {
-                int pointSum = Pointtransfer.TRANSFER_SUM_C_ADD_COMMENT;
-
-                // Point
-                final String articleAuthorId = article.optString(Article.ARTICLE_AUTHOR_ID);
-                if (articleAuthorId.equals(commentAuthorId)) {
-                    pointSum = Pointtransfer.TRANSFER_SUM_C_ADD_SELF_ARTICLE_COMMENT;
-                }
-
-                if (balance - pointSum < 0) {
-                    throw new ServiceException(langPropsService.get("insufficientBalanceLabel"));
-                }
-            }
         } catch (final RepositoryException e) {
             throw new ServiceException(e);
         }
@@ -459,24 +415,6 @@ public class CommentMgmtService {
             }
 
             transaction.commit();
-
-            if (!fromClient && Comment.COMMENT_ANONYMOUS_C_PUBLIC == commentAnonymous
-                    && Article.ARTICLE_ANONYMOUS_C_PUBLIC == articleAnonymous
-                    && !TuringQueryService.ROBOT_NAME.equals(commenterName)) {
-                // Point
-                final String articleAuthorId = article.optString(Article.ARTICLE_AUTHOR_ID);
-                if (articleAuthorId.equals(commentAuthorId)) {
-                    pointtransferMgmtService.transfer(commentAuthorId, Pointtransfer.ID_C_SYS,
-                            Pointtransfer.TRANSFER_TYPE_C_ADD_COMMENT, Pointtransfer.TRANSFER_SUM_C_ADD_SELF_ARTICLE_COMMENT,
-                            commentId, System.currentTimeMillis());
-                } else {
-                    pointtransferMgmtService.transfer(commentAuthorId, articleAuthorId,
-                            Pointtransfer.TRANSFER_TYPE_C_ADD_COMMENT, Pointtransfer.TRANSFER_SUM_C_ADD_COMMENT,
-                            commentId, System.currentTimeMillis());
-                }
-
-                livenessMgmtService.incLiveness(commentAuthorId, Liveness.LIVENESS_COMMENT);
-            }
 
             // Event
             final JSONObject eventData = new JSONObject();

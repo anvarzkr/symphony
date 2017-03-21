@@ -62,12 +62,6 @@
         <div class="fn-clear settings-secret">
             <div>
                 <label>
-                    ${userPointStatusLabel}
-                    <input id="userPointStatus" <#if 0 == currentUser.userPointStatus> checked="checked"</#if> type="checkbox" /> 
-                </label>
-            </div>
-            <div>
-                <label>
                     ${userOnlineStatusLabel}
                     <input id="userOnlineStatus" <#if 0 == currentUser.userOnlineStatus> checked="checked"</#if> type="checkbox" /> 
                 </label>
@@ -84,20 +78,6 @@
                 <label>
                     ${userTimelineStatusLabel}
                     <input id="userTimelineStatus" <#if 0 == currentUser.userTimelineStatus> checked="checked"</#if> type="checkbox" /> 
-                </label>
-            </div>
-        </div>
-        <div class="fn-clear settings-secret">
-            <div>
-                <label>
-                    ${joinBalanceRankLabel}
-                    <input id="joinPointRank" <#if 0 == currentUser.userJoinPointRank> checked="checked"</#if> type="checkbox" /> 
-                </label>
-            </div>
-            <div>
-                <label>
-                    ${joinCosumptionRankLabel}
-                    <input id="joinUsedPointRank" <#if 0 == currentUser.userJoinUsedPointRank> checked="checked"</#if> type="checkbox" /> 
                 </label>
             </div>
         </div>
