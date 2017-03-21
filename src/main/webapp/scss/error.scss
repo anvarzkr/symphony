@@ -1,0 +1,60 @@
+/*
+ * Symphony - A modern community (forum/SNS/blog) platform written in Java.
+ * Copyright (C) 2012-2017,  b3log.org & hacpai.com
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+/**
+ * 错误样式.
+ *
+ * @author <a href="http://vanessa.b3log.org">Liyuan Li</a>
+ * @version 1.0.2.2, Sep 28 2016
+ */
+
+@import "variables";
+
+/* start error */
+.error .block {
+    display: block;
+}
+/* end error */
+
+/* start 403 */
+.error-403 .footer .slogan {
+    text-align: center;
+    border: 0;
+    padding-bottom: 10px;
+}
+
+.error-403 #emptyTimeline,
+.error-403 .list {
+    width: 100%;
+}
+
+.error-403 .module > .slogan {
+    padding: 20px 0px 20px 0;
+    color: #767676;
+    width: 100%;
+    text-align: center;
+}
+
+.error-403 .module > .slogan a:hover svg {
+    color: $blue;
+}
+
+.error-403 .wrapper > .module {
+    margin-bottom: 20px;
+}
+
+/* end 403 */
