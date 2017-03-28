@@ -36,27 +36,26 @@ public class UserLevelRepository extends AbstractRepository {
 
 
 
-        final List<JSONObject> result = select("SELECT CAST(SUM(res) AS signed) " +
+        final List<JSONObject> result = select("SELECT CAST(SUM(res) AS signed) as exp " +
                 "FROM (" +
                 "SELECT CASE WHEN 200 + 5*(articleGoodCnt-articleBadCnt) + " +
                 "10*articleCommentCount + " +
                 "20*articleWatchCnt + 20 * articleCollectCnt < 0 " +
                 "THEN 0 " +
-                "ELSE 200 + 5*(articleGoodCnt-articleBadCnt) + (articleViewCount+articleAnonymousView) + " +
+                "ELSE 200 + 5*(articleGoodCnt-articleBadCnt) + " +
                 "10*articleCommentCount + 20*articleWatchCnt + 20 * articleCollectCnt " +
                 "END res " +
-                "FROM b3log_symphony.symphony_article WHERE articleAuthorId='?' " +
+                "FROM b3log_symphony.symphony_article WHERE articleAuthorId='"+ userId +"' " +
                 "UNION " +
                 "(SELECT CASE " +
                 "WHEN 10 + 10*(commentGoodCnt - commentBadCnt) < 0 THEN 0 " +
                 "ELSE 10 + 10*(commentGoodCnt - commentBadCnt) " +
                 "END res " +
                 "FROM b3log_symphony.symphony_comment " +
-                "WHERE commentAuthorId='?')" +
-                ") AS t\n"
-                + "", userId);
+                "WHERE commentAuthorId='"+ userId +"')" +
+                ") AS t\n");
         if (!result.isEmpty()) {
-            int exp = result.get(0).optInt(Common.POINT, 0);
+            int exp = result.get(0).optInt("exp", 0);
             int level = 1 + exp/1000;
             userLevel = new JSONObject();
             userLevel.put(UserLevel.USER_ID, userId);

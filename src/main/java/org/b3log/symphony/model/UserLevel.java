@@ -6,6 +6,7 @@ package org.b3log.symphony.model;
 public final class UserLevel {
 
     public final static String USER_LEVELS = "userLevels";
+    public final static String USER_LEVEL = "userLevel";
 
     public final static String USER_ID = "userId";
     public final static String LEVEL = "level";
