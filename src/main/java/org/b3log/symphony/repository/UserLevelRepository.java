@@ -7,6 +7,7 @@ import org.b3log.latke.repository.RepositoryException;
 import org.b3log.latke.repository.annotation.Repository;
 import org.b3log.symphony.cache.UserLevelCache;
 import org.b3log.symphony.model.Common;
+import org.b3log.symphony.model.UserLevel;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
@@ -33,17 +34,35 @@ public class UserLevelRepository extends AbstractRepository {
             return userLevel;
         }
 
-        //TODO: SQL query
-        final List<JSONObject> result = select("SELECT\n"
-                + "	AVG(sum) AS point\n"
-                + "FROM\n"
-                + "	`" + getName() + "`\n"
-                + "WHERE\n"
-                + "	type = 27\n"
-                + "AND toId = ?\n"
+
+
+        final List<JSONObject> result = select("SELECT CAST(SUM(res) AS signed) " +
+                "FROM (" +
+                "SELECT CASE WHEN 200 + 5*(articleGoodCnt-articleBadCnt) + " +
+                "10*articleCommentCount + " +
+                "20*articleWatchCnt + 20 * articleCollectCnt < 0 " +
+                "THEN 0 " +
+                "ELSE 200 + 5*(articleGoodCnt-articleBadCnt) + (articleViewCount+articleAnonymousView) + " +
+                "10*articleCommentCount + 20*articleWatchCnt + 20 * articleCollectCnt " +
+                "END res " +
+                "FROM b3log_symphony.symphony_article WHERE articleAuthorId='?' " +
+                "UNION " +
+                "(SELECT CASE " +
+                "WHEN 10 + 10*(commentGoodCnt - commentBadCnt) < 0 THEN 0 " +
+                "ELSE 10 + 10*(commentGoodCnt - commentBadCnt) " +
+                "END res " +
+                "FROM b3log_symphony.symphony_comment " +
+                "WHERE commentAuthorId='?')" +
+                ") AS t\n"
                 + "", userId);
         if (!result.isEmpty()) {
-            userLevel = result.get(0);
+            int exp = result.get(0).optInt(Common.POINT, 0);
+            int level = 1 + exp/1000;
+            userLevel = new JSONObject();
+            userLevel.put(UserLevel.USER_ID, userId);
+            userLevel.put(UserLevel.EXPERIENCE, exp);
+            userLevel.put(UserLevel.LEVEL, level);
+            userLevel.put(UserLevel.NEXT_LEVEL_EXPERIENCE, level*1000);
         }
 
         if (null == userLevel) {

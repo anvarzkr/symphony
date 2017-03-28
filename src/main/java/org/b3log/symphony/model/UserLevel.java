@@ -9,7 +9,6 @@ public final class UserLevel {
 
     public final static String USER_ID = "userId";
     public final static String LEVEL = "level";
-    public final static String LEVEL_NAME = "levelName";
     public final static String EXPERIENCE = "experience";
     public final static String NEXT_LEVEL_EXPERIENCE = "nextLevelExperience";
 
