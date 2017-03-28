@@ -32,6 +32,7 @@ import org.b3log.latke.util.Paginator;
 import org.b3log.symphony.model.*;
 import org.b3log.symphony.repository.FollowRepository;
 import org.b3log.symphony.repository.PointtransferRepository;
+import org.b3log.symphony.repository.UserLevelRepository;
 import org.b3log.symphony.repository.UserRepository;
 import org.b3log.symphony.util.Markdowns;
 import org.b3log.symphony.util.Sessions;
@@ -90,6 +91,20 @@ public class UserQueryService {
      */
     @Inject
     private RoleQueryService roleQueryService;
+
+    @Inject
+    private UserLevelRepository userLevelRepository;
+
+
+    public JSONObject getUserLevel(final String userId){
+        try {
+            return userLevelRepository.get(userId);
+        } catch (final RepositoryException e) {
+            LOGGER.log(Level.ERROR, "Gets user's level failed", e);
+
+            return null;
+        }
+    }
 
     /**
      * Get nice users with the specified fetch size.
