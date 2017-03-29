@@ -12,11 +12,26 @@
         <div class="main pre-post-wrap">
             <div class="wrapper pre-post">
                 <div>
-                    <a href="${servePath}/post?type=0">
+
+                    <a
+                    <#if userLevel.level==1>
+                            onclick="Article.permissionTip('You should have at least 2 level')"
+                    <#else>
+                            href="${servePath}/post?type=0"
+                    </#if>
+                    >
                         <div class="icon-article"></div>
                         ${articleLabel}
                     </a>
+
+                    <#if userLevel.level==1>
+                        <div class="ft-fade">
+                            <span class="ft-red">Only users with at least 2 level can add posts</span>
+                        </div>
+                    <#else>
                     <div class="ft-fade">${addNormalArticleTipLabel}</div>
+                    </#if>
+
                 </div>
                 <div>
                     <a href="${servePath}/post?type=3">

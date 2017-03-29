@@ -61,7 +61,11 @@
                     <span class="tooltipped tooltipped-n<#if isLoggedIn && 1 == comment.commentVote> ft-red</#if>"
                           aria-label="${downLabel}"
                     <#if permissions["commonBadComment"].permissionGrant>
+                        <#if userLevel.level==1 || userLevel.level==2>
+                          onclick="Article.permissionTip('You should have at least 3 level')"
+                        <#else>
                           onclick="Article.voteDown('${comment.oId}', 'comment', this)"
+                        </#if>
                         <#else>
                             onclick="Article.permissionTip(Label.noPermissionLabel)"
                     </#if>><span class="icon-thumbs-down"></span> ${comment.commentBadCnt}</span> &nbsp;
