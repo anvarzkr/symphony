@@ -367,6 +367,10 @@ public class ArticleProcessor {
         final Map<String, Object> dataModel = renderer.getDataModel();
 
         dataModel.put(Common.BROADCAST_POINT, Pointtransfer.TRANSFER_SUM_C_ADD_ARTICLE_BROADCAST);
+        final JSONObject currentUser = (JSONObject) request.getAttribute(User.USER);
+        final String followingId = currentUser.optString(Keys.OBJECT_ID);
+        JSONObject userLevel = userQueryService.getUserLevel(followingId);
+        dataModel.put(UserLevel.USER_LEVEL,userLevel);
 
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
     }
@@ -575,6 +579,9 @@ public class ArticleProcessor {
             article.put(Article.ARTICLE_T_AUTHOR_URL, "");
             article.put(Article.ARTICLE_T_AUTHOR_INTRO, "");
         }
+        final JSONObject user = (JSONObject) request.getAttribute(User.USER);
+        JSONObject userLevel = userQueryService.getUserLevel(user.optString(Keys.OBJECT_ID));
+        dataModel.put(UserLevel.USER_LEVEL,userLevel);
         dataModel.put(Article.ARTICLE, article);
 
         article.put(Common.IS_MY_ARTICLE, false);

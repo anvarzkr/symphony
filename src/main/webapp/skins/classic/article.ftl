@@ -147,10 +147,15 @@
                                      </#if>><span class="icon-thumbs-up"></span> ${article.articleGoodCnt}</span> &nbsp;
                                 <span  class="tooltipped tooltipped-n has-cnt<#if isLoggedIn && 1 == article.articleVote> ft-red</#if>" aria-label="${downLabel}"
                                     <#if permissions["commonBadArticle"].permissionGrant>
+                                       <#if userLevel.level==1 || userLevel.level==2>
+                                       onclick="Article.permissionTip('You should have at least 3 level')"
+                                           <#else>
                                        onclick="Article.voteDown('${article.oId}', 'article', this)"
+                                       </#if>
                                     <#else>
                                         onclick="Article.permissionTip(Label.noPermissionLabel)"
                                 </#if>><span class="icon-thumbs-down"></span> ${article.articleBadCnt}</span> &nbsp;
+
 
                                 <#if isLoggedIn && isFollowing>
                                 <span class="tooltipped tooltipped-n has-cnt ft-red" aria-label="${uncollectLabel}"

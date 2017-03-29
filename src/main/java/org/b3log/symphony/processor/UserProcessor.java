@@ -846,6 +846,7 @@ public class UserProcessor {
                          final String userName) throws Exception {
         final JSONObject user = (JSONObject) request.getAttribute(User.USER);
 
+
         String pageNumStr = request.getParameter("p");
         if (Strings.isEmptyOrNull(pageNumStr) || !Strings.isNumeric(pageNumStr)) {
             pageNumStr = "1";
@@ -860,10 +861,13 @@ public class UserProcessor {
 
         final String followingId = user.optString(Keys.OBJECT_ID);
         dataModel.put(Follow.FOLLOWING_ID, followingId);
+        JSONObject userLevel = userQueryService.getUserLevel(followingId);
+        dataModel.put(UserLevel.USER_LEVEL,userLevel);
 
         renderer.setTemplateName("/home/home.ftl");
 
         dataModel.put(User.USER, user);
+
         fillHomeUser(dataModel, user);
 
         final int avatarViewMode = (int) request.getAttribute(UserExt.USER_AVATAR_VIEW_MODE);
