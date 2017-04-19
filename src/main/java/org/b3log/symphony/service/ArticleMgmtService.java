@@ -347,6 +347,7 @@ public class ArticleMgmtService {
         articleTitle = StringUtils.trim(articleTitle);
 
         final int articleType = requestJSONObject.optInt(Article.ARTICLE_TYPE, Article.ARTICLE_TYPE_C_NORMAL);
+        final String articleTopicId = requestJSONObject.optString(Article.ARTICLE_TOPIC_ID);
 
         try {
             // check if admin allow to add article
@@ -406,6 +407,7 @@ public class ArticleMgmtService {
 
             article.put(Article.ARTICLE_REWARD_CONTENT, requestJSONObject.optString(Article.ARTICLE_REWARD_CONTENT));
 
+            article.put(Article.ARTICLE_TOPIC_ID, articleTopicId);
             article.put(Article.ARTICLE_EDITOR_TYPE, requestJSONObject.optString(Article.ARTICLE_EDITOR_TYPE));
             article.put(Article.ARTICLE_SYNC_TO_CLIENT, fromClient ? true : author.optBoolean(UserExt.SYNC_TO_CLIENT));
             article.put(Article.ARTICLE_AUTHOR_ID, authorId);
@@ -436,6 +438,7 @@ public class ArticleMgmtService {
             if (UserExt.USER_GEO_STATUS_C_PUBLIC == author.optInt(UserExt.USER_GEO_STATUS)) {
                 city = author.optString(UserExt.USER_CITY);
             }
+
             article.put(Article.ARTICLE_CITY, city);
             article.put(Article.ARTICLE_ANONYMOUS, articleAnonymous);
             article.put(Article.ARTICLE_SYNC_TO_CLIENT, syncWithSymphonyClient);
@@ -649,6 +652,7 @@ public class ArticleMgmtService {
             oldArticle.put(Article.ARTICLE_TAGS, requestJSONObject.optString(Article.ARTICLE_TAGS));
             oldArticle.put(Article.ARTICLE_COMMENTABLE, requestJSONObject.optBoolean(Article.ARTICLE_COMMENTABLE, true));
             oldArticle.put(Article.ARTICLE_TYPE, articleType);
+            oldArticle.put(Article.ARTICLE_TOPIC_ID, requestJSONObject.optString(Article.ARTICLE_TOPIC_ID));
 
             String articleContent = requestJSONObject.optString(Article.ARTICLE_CONTENT);
             articleContent = Emotions.toAliases(articleContent);
@@ -760,6 +764,8 @@ public class ArticleMgmtService {
                 articleContent = Emotions.toAliases(articleContent);
                 article.put(Article.ARTICLE_CONTENT, articleContent);
             }
+
+            article.put(Article.ARTICLE_TOPIC_ID,article.optString(Article.ARTICLE_TOPIC_ID));
 
             final int perfect = article.optInt(Article.ARTICLE_PERFECT);
             if (Article.ARTICLE_PERFECT_C_PERFECT == perfect) {
@@ -1427,6 +1433,7 @@ public class ArticleMgmtService {
             article.put(Article.ARTICLE_TYPE, Article.ARTICLE_TYPE_C_NORMAL);
             article.put(Article.ARTICLE_REWARD_POINT, requestJSONObject.optInt(Article.ARTICLE_REWARD_POINT));
             article.put(Article.ARTICLE_CITY, "");
+            article.put(Article.ARTICLE_TOPIC_ID, Topic.TOPIC_IT);
             String articleTags = requestJSONObject.optString(Article.ARTICLE_TAGS);
             articleTags = Tag.formatTags(articleTags);
             boolean sandboxEnv = false;

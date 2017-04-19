@@ -11,12 +11,13 @@ public final class Topic {
 
     public static final String TOPIC_IT = "IT";
     public static final String TOPIC_POLITICS = "Politics";
-    public static final String TOPIC_ENTARTAINMENT = "Entertainment";
+    public static final String TOPIC_ENTERTAINMENT = "Entertainment";
     public static final String TOPIC_HEALTH = "Health";
     public static final String TOPIC_FOOD = "Food";
     public static final String TOPIC_HOBBY = "Hobby";
     public static final String TOPIC_NATURE = "Nature";
     public static final String TOPIC_OTHER = "Other";
+
     public static final String ALL_TOPICS = "allTopics";
 
 

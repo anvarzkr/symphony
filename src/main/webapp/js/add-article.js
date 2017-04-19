@@ -63,6 +63,7 @@ var AddArticle = {
             });
             var requestJSONObject = {
                 articleTitle: $("#articleTitle").val().replace(/(^\s*)|(\s*$)/g, ""),
+                articleTopicId: $("articleTopic").val(),
                 articleContent: this.editor.getValue(),
                 articleTags: articleTags,
                 articleCommentable: true,
