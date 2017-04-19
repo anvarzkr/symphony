@@ -881,6 +881,8 @@ public class ArticleProcessor {
                 articleTags = "思绪";
             }
 
+            articleTags = "思绪";
+
             article.put(Article.ARTICLE_TAGS, articleTags);
             article.put(Article.ARTICLE_T_IS_BROADCAST, false);
 
@@ -941,6 +943,9 @@ public class ArticleProcessor {
         dataModel.put(Article.ARTICLE, article);
 
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
+
+        List<JSONObject> allTopics = topicService.getAllTopics();
+        dataModel.put(Topic.ALL_TOPICS,allTopics);
 
         // Qiniu file upload authenticate
         final Auth auth = Auth.create(Symphonys.get("qiniu.accessKey"), Symphonys.get("qiniu.secretKey"));

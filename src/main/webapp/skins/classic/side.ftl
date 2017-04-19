@@ -96,38 +96,38 @@
     </div>
 </div>
 </#if>
-<#if sideTags?size!=0>
-<div class="module">
-    <div class="module-header">
-        <h2>
-            ${recommendedTags}
-        </h2>
-    </div>
-    <div class="module-panel">
-        <ul class="tag-desc fn-clear">
-            <#list sideTags as tag>
-            <li>
-                <a rel="nofollow" href="${servePath}/tag/${tag.tagURI}">
-                    <#if tag.tagIconPath!="">
-                    <img src="${staticServePath}/images/tags/${tag.tagIconPath}" alt="${tag.tagTitle}" /></#if>
-                    ${tag.tagTitle}
-                </a>
-                <div<#if tag.tagDescription == ''> style="width:auto"</#if>>
-                    <div>${tag.tagDescription}</div>
-                    <span class="fn-right">
-                        <span class="ft-gray">${referenceLabel}</span> 
-                        ${tag.tagReferenceCount} &nbsp;
-                        <span class="ft-gray">${cmtLabel}</span>
-                        ${tag.tagCommentCount}&nbsp;
-                    </span>
+<#--<#if sideTags?size!=0>-->
+<#--<div class="module">-->
+    <#--<div class="module-header">-->
+        <#--<h2>-->
+            <#--${recommendedTags}-->
+        <#--</h2>-->
+    <#--</div>-->
+    <#--<div class="module-panel">-->
+        <#--<ul class="tag-desc fn-clear">-->
+            <#--<#list sideTags as tag>-->
+            <#--<li>-->
+                <#--<a rel="nofollow" href="${servePath}/tag/${tag.tagURI}">-->
+                    <#--<#if tag.tagIconPath!="">-->
+                    <#--<img src="${staticServePath}/images/tags/${tag.tagIconPath}" alt="${tag.tagTitle}" /></#if>-->
+                    <#--${tag.tagTitle}-->
+                <#--</a>-->
+                <#--<div<#if tag.tagDescription == ''> style="width:auto"</#if>>-->
+                    <#--<div>${tag.tagDescription}</div>-->
+                    <#--<span class="fn-right">-->
+                        <#--<span class="ft-gray">${referenceLabel}</span> -->
+                        <#--${tag.tagReferenceCount} &nbsp;-->
+                        <#--<span class="ft-gray">${cmtLabel}</span>-->
+                        <#--${tag.tagCommentCount}&nbsp;-->
+                    <#--</span>-->
 
-                </div>
-            </li>
-            </#list>
-        </ul>
-    </div>
-</div>
-</#if>
+                <#--</div>-->
+            <#--</li>-->
+            <#--</#list>-->
+        <#--</ul>-->
+    <#--</div>-->
+<#--</div>-->
+<#--</#if>-->
 <#if sideRandomArticles?size!=0>
 <div class="module">
     <div class="module-header">
@@ -152,21 +152,21 @@
     </div>
 </div>
 </#if>
-<#if newTags?size!=0>
-<div class="module">
-    <div class="module-header">
-        <h2>
-            ${newTagLabel}
-        </h2>
-    </div>
-    <div class="module-panel">
-        <ul class="fn-clear tags">
-            <#list newTags as newTag>
-            <li>
-                <a class="ft-gray ft-13" rel="nofollow" href="${servePath}/tag/${newTag.tagURI}">${newTag.tagTitle}</a> &nbsp;
-            </li>
-            </#list>
-        </ul>
-    </div>
-</div>
-</#if>
+<#--<#if newTags?size!=0>-->
+<#--<div class="module">-->
+    <#--<div class="module-header">-->
+        <#--<h2>-->
+            <#--${newTagLabel}-->
+        <#--</h2>-->
+    <#--</div>-->
+    <#--<div class="module-panel">-->
+        <#--<ul class="fn-clear tags">-->
+            <#--<#list newTags as newTag>-->
+            <#--<li>-->
+                <#--<a class="ft-gray ft-13" rel="nofollow" href="${servePath}/tag/${newTag.tagURI}">${newTag.tagTitle}</a> &nbsp;-->
+            <#--</li>-->
+            <#--</#list>-->
+        <#--</ul>-->
+    <#--</div>-->
+<#--</div>-->
+<#--</#if>-->

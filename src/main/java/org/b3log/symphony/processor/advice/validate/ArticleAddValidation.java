@@ -129,57 +129,57 @@ public class ArticleAddValidation extends BeforeRequestProcessAdvice {
         String articleTags = requestJSONObject.optString(Article.ARTICLE_TAGS);
         articleTags = Tag.formatTags(articleTags);
 
-        if (StringUtils.isBlank(articleTags)) {
-            throw new RequestProcessAdviceException(new JSONObject().put(Keys.MSG, langPropsService.get("tagsEmptyErrorLabel")));
-        }
+//        if (StringUtils.isBlank(articleTags)) {
+//            throw new RequestProcessAdviceException(new JSONObject().put(Keys.MSG, langPropsService.get("tagsEmptyErrorLabel")));
+//        }
 
-        if (optionQueryService.containReservedWord(articleTags)) {
-            throw new RequestProcessAdviceException(new JSONObject().put(Keys.MSG, langPropsService.get("contentContainReservedWordLabel")));
-        }
+//        if (optionQueryService.containReservedWord(articleTags)) {
+//            throw new RequestProcessAdviceException(new JSONObject().put(Keys.MSG, langPropsService.get("contentContainReservedWordLabel")));
+//        }
 
-        if (StringUtils.isNotBlank(articleTags)) {
-            String[] tagTitles = articleTags.split(",");
-
-            tagTitles = new LinkedHashSet<String>(Arrays.asList(tagTitles)).toArray(new String[0]);
-            final List<String> invalidTags = tagQueryService.getInvalidTags();
-
-            final StringBuilder tagBuilder = new StringBuilder();
-            for (int i = 0; i < tagTitles.length; i++) {
-                final String tagTitle = tagTitles[i].trim();
-
-                if (Strings.isEmptyOrNull(tagTitle)) {
-                    throw new RequestProcessAdviceException(new JSONObject().put(Keys.MSG, langPropsService.get("tagsErrorLabel")));
-                }
-
-                if (!Tag.containsWhiteListTags(tagTitle)) {
-                    if (!Tag.TAG_TITLE_PATTERN.matcher(tagTitle).matches()) {
-                        throw new RequestProcessAdviceException(new JSONObject().put(Keys.MSG, langPropsService.get("tagsErrorLabel")));
-                    }
-
-                    if (tagTitle.length() > Tag.MAX_TAG_TITLE_LENGTH) {
-                        throw new RequestProcessAdviceException(new JSONObject().put(Keys.MSG, langPropsService.get("tagsErrorLabel")));
-                    }
-                }
-
-                final JSONObject currentUser = (JSONObject) request.getAttribute(User.USER);
-                if (!Role.ROLE_ID_C_ADMIN.equals(currentUser.optString(User.USER_ROLE))
-                        && ArrayUtils.contains(Symphonys.RESERVED_TAGS, tagTitle)) {
-                    throw new RequestProcessAdviceException(new JSONObject().put(Keys.MSG, langPropsService.get("articleTagReservedLabel")
-                            + " [" + tagTitle + "]"));
-                }
-
-                if (invalidTags.contains(tagTitle)) {
-                    throw new RequestProcessAdviceException(new JSONObject().put(Keys.MSG, langPropsService.get("articleTagInvalidLabel")
-                            + " [" + tagTitle + "]"));
-                }
-
-                tagBuilder.append(tagTitle).append(",");
-            }
-            if (tagBuilder.length() > 0) {
-                tagBuilder.deleteCharAt(tagBuilder.length() - 1);
-            }
-            requestJSONObject.put(Article.ARTICLE_TAGS, tagBuilder.toString());
-        }
+//        if (StringUtils.isNotBlank(articleTags)) {
+//            String[] tagTitles = articleTags.split(",");
+//
+//            tagTitles = new LinkedHashSet<String>(Arrays.asList(tagTitles)).toArray(new String[0]);
+//            final List<String> invalidTags = tagQueryService.getInvalidTags();
+//
+//            final StringBuilder tagBuilder = new StringBuilder();
+//            for (int i = 0; i < tagTitles.length; i++) {
+//                final String tagTitle = tagTitles[i].trim();
+//
+//                if (Strings.isEmptyOrNull(tagTitle)) {
+//                    throw new RequestProcessAdviceException(new JSONObject().put(Keys.MSG, langPropsService.get("tagsErrorLabel")));
+//                }
+//
+//                if (!Tag.containsWhiteListTags(tagTitle)) {
+//                    if (!Tag.TAG_TITLE_PATTERN.matcher(tagTitle).matches()) {
+//                        throw new RequestProcessAdviceException(new JSONObject().put(Keys.MSG, langPropsService.get("tagsErrorLabel")));
+//                    }
+//
+//                    if (tagTitle.length() > Tag.MAX_TAG_TITLE_LENGTH) {
+//                        throw new RequestProcessAdviceException(new JSONObject().put(Keys.MSG, langPropsService.get("tagsErrorLabel")));
+//                    }
+//                }
+//
+//                final JSONObject currentUser = (JSONObject) request.getAttribute(User.USER);
+//                if (!Role.ROLE_ID_C_ADMIN.equals(currentUser.optString(User.USER_ROLE))
+//                        && ArrayUtils.contains(Symphonys.RESERVED_TAGS, tagTitle)) {
+//                    throw new RequestProcessAdviceException(new JSONObject().put(Keys.MSG, langPropsService.get("articleTagReservedLabel")
+//                            + " [" + tagTitle + "]"));
+//                }
+//
+//                if (invalidTags.contains(tagTitle)) {
+//                    throw new RequestProcessAdviceException(new JSONObject().put(Keys.MSG, langPropsService.get("articleTagInvalidLabel")
+//                            + " [" + tagTitle + "]"));
+//                }
+//
+//                tagBuilder.append(tagTitle).append(",");
+//            }
+//            if (tagBuilder.length() > 0) {
+//                tagBuilder.deleteCharAt(tagBuilder.length() - 1);
+//            }
+//            requestJSONObject.put(Article.ARTICLE_TAGS, tagBuilder.toString());
+//        }
 
         String articleContent = requestJSONObject.optString(Article.ARTICLE_CONTENT);
         articleContent = StringUtils.trim(articleContent);

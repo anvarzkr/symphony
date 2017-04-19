@@ -35,7 +35,7 @@
                             </span>
                         </h2>
                         <span class="ft-fade ft-smaller">
-                        ${item.articleTags}  • ${item.articleCreateTime?string('yyyy-MM-dd HH:mm')} •
+                        ${item.articleCreateTime?string('yyyy-MM-dd HH:mm')} •
                         ${viewCountLabel} ${item.articleViewCount} •
                         ${commentCountLabel} ${item.articleCommentCount}
                         </span>

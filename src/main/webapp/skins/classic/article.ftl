@@ -83,9 +83,9 @@
                                     </#if>
                                 </span>
                                 <br/>
-                                <#list article.articleTagObjs as articleTag>
-                                <a rel="tag" class="tag" href="${servePath}/tag/${articleTag.tagURI}">${articleTag.tagTitle}</a>&nbsp;
-                                </#list>
+                                <#--<#list article.articleTagObjs as articleTag>-->
+                                <#--<a rel="tag" class="tag" href="${servePath}/tag/${articleTag.tagURI}">${articleTag.tagTitle}</a>&nbsp;-->
+                                <#--</#list>-->
                                 <#if 0 == article.articleAuthor.userUAStatus>
                                 <span id="articltVia" class="ft-fade" data-ua="${article.articleUA}"></span>
                                 </#if>

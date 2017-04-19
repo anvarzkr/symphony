@@ -28,10 +28,10 @@
                               placeholder="<#if !article?? && 1 == articleType>${addDiscussionEditorPlaceholderLabel}</#if>${addArticleEditorPlaceholderLabel}"><#if article??>${article.articleContent?html}</#if><#if at??>@${at}</#if></textarea>
                 </div>
                 <div class="tags-wrap">
-                    <div class="tags-input"><span class="tags-selected"></span>
-                    <input id="articleTags" type="text" tabindex="3"<#if requisite> readonly disabled</#if>
-                           value="<#if article??>${article.articleTags}<#else>${tags}</#if>" placeholder="${tagLabel}（${tagSeparatorTipLabel}）" autocomplete="off" />
-                    </div>
+                    <#--<div class="tags-input"><span class="tags-selected"></span>-->
+                    <input id="articleTags" type="hidden" tabindex="3"<#if requisite> readonly disabled</#if>
+                           value="tags" placeholder="${tagLabel}（${tagSeparatorTipLabel}）" autocomplete="off" />
+                    <#--</div>-->
                     <#if domains?size != 0>
                     <div class="domains-tags">
                         <#list domains as domain>

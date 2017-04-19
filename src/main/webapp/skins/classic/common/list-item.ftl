@@ -1,10 +1,10 @@
 <li>
     <div class="fn-clear ft-smaller list-info">
-        <span class="fn-left">
-            <#list article.articleTagObjs as articleTag>
-            <a rel="tag" href="${servePath}/tag/${articleTag.tagURI}">${articleTag.tagTitle}</a> &nbsp; 
-            </#list>
-        </span>
+        <#--<span class="fn-left">-->
+            <#--<#list article.articleTagObjs as articleTag>-->
+            <#--<a rel="tag" href="${servePath}/tag/${articleTag.tagURI}">${articleTag.tagTitle}</a> &nbsp; -->
+            <#--</#list>-->
+        <#--</span>-->
         <span class="fn-right ft-fade">
             <#if article.articleCommentCount != 0>
             <a class="ft-fade" href="${servePath}${article.articlePermalink}#comments"><b class="article-level<#if article.articleCommentCount lt 40>${(article.articleCommentCount/10)?int}<#else>4</#if>">${article.articleCommentCount}</b> ${cmtLabel}</a> &nbsp;•&nbsp;
