@@ -78,7 +78,7 @@
     </div>
 </div>
 </#if>
-<#if sideTags?size!=0>
+<#if allTopics?? && allTopics?size!=0>
 <div class="module">
     <div class="module-header">
         <h2>
