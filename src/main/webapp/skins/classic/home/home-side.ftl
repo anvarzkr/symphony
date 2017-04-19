@@ -40,13 +40,16 @@
             </#if>
         </div>
 
+
         <div class="user-details">
+        <#if userLevel?? >
             <div class="user-info">
                 <span class="ft-gray">${userLevelLabel}</span> ${userLevel.level}
             </div>
             <div class="user-info">
                 ${userLevel.experience}\${userLevel.nextLevelExperience}
             </div>
+        </#if>
         <#if user.userIntro!="">
         <div class="user-intro" id="userIntroDom">
             ${user.userIntro}

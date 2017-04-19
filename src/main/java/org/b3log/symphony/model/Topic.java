@@ -19,5 +19,4 @@ public final class Topic {
     public static final String TOPIC_OTHER = "Other";
     public static final String ALL_TOPICS = "allTopics";
 
-
 }

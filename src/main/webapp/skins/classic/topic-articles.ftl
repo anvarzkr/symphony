@@ -26,25 +26,6 @@
                     </div>
                     </#if>
                     <div class="module">
-                        <div class="module-header fn-clear">
-                            <span class="fn-right ft-fade">
-                                <a class="<#if "" == current>ft-gray</#if>" href="${servePath}/recent">
-                                    ${defaultLabel}
-                                </a>
-                                /
-                                <a class="<#if "/hot" == current>ft-gray</#if>" href="${servePath}/recent/hot">
-                                    ${hotArticlesLabel}
-                                </a>
-                                /
-                                <a class="<#if "/good" == current>ft-gray</#if>" href="${servePath}/recent/good">
-                                    <span class="icon-thumbs-up"></span> ${goodCmtsLabel}
-                                </a>
-                                /
-                                <a class="<#if "/reply" == current>ft-gray</#if>" href="${servePath}/recent/reply">
-                                    ${recentCommentLabel}
-                                </a>
-                            </span>
-                        </div>
                         <@list listData=latestArticles/>
                         <@pagination url="${servePath}/recent${current}"/>
                     </div>

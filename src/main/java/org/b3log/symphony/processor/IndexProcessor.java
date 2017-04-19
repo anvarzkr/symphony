@@ -24,6 +24,7 @@ import org.b3log.latke.Latkes;
 import org.b3log.latke.logging.Level;
 import org.b3log.latke.logging.Logger;
 import org.b3log.latke.model.Pagination;
+import org.b3log.latke.repository.Transaction;
 import org.b3log.latke.service.LangPropsService;
 import org.b3log.latke.servlet.HTTPRequestContext;
 import org.b3log.latke.servlet.HTTPRequestMethod;
@@ -43,6 +44,7 @@ import org.b3log.symphony.processor.advice.AnonymousViewCheck;
 import org.b3log.symphony.processor.advice.PermissionGrant;
 import org.b3log.symphony.processor.advice.stopwatch.StopwatchEndAdvice;
 import org.b3log.symphony.processor.advice.stopwatch.StopwatchStartAdvice;
+import org.b3log.symphony.repository.TopicRepository;
 import org.b3log.symphony.service.*;
 import org.b3log.symphony.util.Emotions;
 import org.b3log.symphony.util.Markdowns;
@@ -121,6 +123,9 @@ public class IndexProcessor {
 
     @Inject
     private TopicService topicService;
+
+    @Inject
+    private TopicRepository topicRepository;
 
     /**
      * Shows md guide.
@@ -363,6 +368,9 @@ public class IndexProcessor {
 
         dataModel.put(Common.SELECTED, Common.HOT);
 
+        List<JSONObject> allTopics = topicService.getAllTopics();
+        dataModel.put(Topic.ALL_TOPICS, allTopics);
+
         Stopwatchs.start("Fills");
         try {
             dataModelService.fillHeaderAndFooter(request, response, dataModel);
@@ -471,6 +479,9 @@ public class IndexProcessor {
         dataModel.put(Pagination.PAGINATION_PAGE_COUNT, pageCount);
         dataModel.put(Pagination.PAGINATION_PAGE_NUMS, pageNums);
 
+        List<JSONObject> allTopics = topicService.getAllTopics();
+        dataModel.put(Topic.ALL_TOPICS, allTopics);
+
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
         dataModelService.fillRandomArticles(avatarViewMode, dataModel);
         dataModelService.fillSideHotArticles(avatarViewMode, dataModel);
@@ -543,5 +554,87 @@ public class IndexProcessor {
         dataModel.putAll(langs);
         Keys.fillRuntime(dataModel);
         dataModelService.fillMinified(dataModel);
+    }
+
+    @RequestProcessing(value = {"/topic/{topicTitle}"}, method = HTTPRequestMethod.GET)
+    @Before(adviceClass = {StopwatchStartAdvice.class, AnonymousViewCheck.class})
+    @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
+    public void showTopic(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response, final String topicTitle)
+            throws Exception {
+        final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
+        context.setRenderer(renderer);
+        renderer.setTemplateName("topic-articles.ftl");
+        final Map<String, Object> dataModel = renderer.getDataModel();
+
+        String pageNumStr = request.getParameter("p");
+        if (Strings.isEmptyOrNull(pageNumStr) || !Strings.isNumeric(pageNumStr)) {
+            pageNumStr = "1";
+        }
+
+        final int pageNum = Integer.valueOf(pageNumStr);
+        int pageSize = Symphonys.getInt("indexArticlesCnt");
+        final JSONObject user = userQueryService.getCurrentUser(request);
+        if (null != user) {
+            pageSize = user.optInt(UserExt.USER_LIST_PAGE_SIZE);
+
+            if (!UserExt.finshedGuide(user)) {
+                response.sendRedirect(Latkes.getServePath() + "/guide");
+
+                return;
+            }
+        }
+
+        final int avatarViewMode = (int) request.getAttribute(UserExt.USER_AVATAR_VIEW_MODE);
+
+        String sortModeStr = StringUtils.substringAfter(request.getRequestURI(), "/recent");
+        int sortMode = 0;
+
+        final JSONObject result = articleQueryService.getTopicArticles(avatarViewMode, sortMode, pageNum, pageSize, topicTitle);
+        final List<JSONObject> allArticles = (List<JSONObject>) result.get(Article.ARTICLES);
+
+        dataModel.put(Common.SELECTED, Common.RECENT);
+
+        final List<JSONObject> stickArticles = new ArrayList<>();
+
+        final Iterator<JSONObject> iterator = allArticles.iterator();
+        while (iterator.hasNext()) {
+            final JSONObject article = iterator.next();
+
+            final boolean stick = article.optInt(Article.ARTICLE_T_STICK_REMAINS) > 0;
+            article.put(Article.ARTICLE_T_IS_STICK, stick);
+
+            if (stick) {
+                stickArticles.add(article);
+                iterator.remove();
+            }
+        }
+
+        dataModel.put(Common.STICK_ARTICLES, stickArticles);
+        dataModel.put(Common.LATEST_ARTICLES, allArticles);
+
+        List<JSONObject> allTopics = topicService.getAllTopics();
+        dataModel.put(Topic.ALL_TOPICS, allTopics);
+
+        final JSONObject pagination = result.getJSONObject(Pagination.PAGINATION);
+        final int pageCount = pagination.optInt(Pagination.PAGINATION_PAGE_COUNT);
+
+        final List<Integer> pageNums = (List<Integer>) pagination.get(Pagination.PAGINATION_PAGE_NUMS);
+        if (!pageNums.isEmpty()) {
+            dataModel.put(Pagination.PAGINATION_FIRST_PAGE_NUM, pageNums.get(0));
+            dataModel.put(Pagination.PAGINATION_LAST_PAGE_NUM, pageNums.get(pageNums.size() - 1));
+        }
+
+        dataModel.put(Pagination.PAGINATION_CURRENT_PAGE_NUM, pageNum);
+        dataModel.put(Pagination.PAGINATION_PAGE_COUNT, pageCount);
+        dataModel.put(Pagination.PAGINATION_PAGE_NUMS, pageNums);
+
+        dataModelService.fillHeaderAndFooter(request, response, dataModel);
+
+        dataModelService.fillRandomArticles(avatarViewMode, dataModel);
+        dataModelService.fillSideHotArticles(avatarViewMode, dataModel);
+        dataModelService.fillSideTags(dataModel);
+        dataModelService.fillLatestCmts(dataModel);
+
+        dataModel.put(Common.CURRENT, StringUtils.substringAfter(request.getRequestURI(), "/topic/" + topicTitle));
     }
 }

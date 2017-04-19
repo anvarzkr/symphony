@@ -36,6 +36,7 @@ import org.b3log.symphony.processor.advice.AnonymousViewCheck;
 import org.b3log.symphony.processor.advice.PermissionGrant;
 import org.b3log.symphony.processor.advice.stopwatch.StopwatchEndAdvice;
 import org.b3log.symphony.processor.advice.stopwatch.StopwatchStartAdvice;
+import org.b3log.symphony.repository.TopicRepository;
 import org.b3log.symphony.service.*;
 import org.b3log.symphony.util.Sessions;
 import org.b3log.symphony.util.Symphonys;
@@ -101,6 +102,12 @@ public class TagProcessor {
      */
     @Inject
     private TagCache tagCache;
+
+    @Inject
+    private TopicService topicService;
+
+    @Inject
+    private TopicRepository topicRepository;
 
     /**
      * Queries tags.
@@ -312,6 +319,9 @@ public class TagProcessor {
         dataModel.put(Pagination.PAGINATION_CURRENT_PAGE_NUM, pageNum);
         dataModel.put(Pagination.PAGINATION_PAGE_COUNT, pageCount);
         dataModel.put(Pagination.PAGINATION_PAGE_NUMS, pageNums);
+
+        List<JSONObject> allTopics = topicService.getAllTopics();
+        dataModel.put(Topic.ALL_TOPICS, allTopics);
 
         dataModelService.fillRandomArticles(avatarViewMode, dataModel);
         dataModelService.fillSideHotArticles(avatarViewMode, dataModel);

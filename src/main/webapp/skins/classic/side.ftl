@@ -82,6 +82,24 @@
 <div class="module">
     <div class="module-header">
         <h2>
+            Topics
+        </h2>
+    </div>
+    <div class="module-panel">
+        <ul class="module-list fn-clear">
+            <#list allTopics as topic>
+                <li>
+                    <a class="title" rel="nofollow" href="/topic/${topic.topicTitle}">${topic.topicTitle}</a>
+                </li>
+            </#list>
+        </ul>
+    </div>
+</div>
+</#if>
+<#if sideTags?size!=0>
+<div class="module">
+    <div class="module-header">
+        <h2>
             ${recommendedTags}
         </h2>
     </div>

@@ -382,6 +382,7 @@ public class ArticleQueryService {
         }
     }
 
+
     /**
      * Gets article count of the specified month.
      *
@@ -1557,6 +1558,57 @@ public class ArticleQueryService {
                 LOGGER.warn("Unknown sort mode [" + sortMode + "]");
                 query = makeRecentDefaultQuery(currentPageNum, fetchSize);
         }
+
+        JSONObject result = null;
+
+        try {
+            Stopwatchs.start("Query recent articles");
+
+            result = articleRepository.get(query);
+        } catch (final RepositoryException e) {
+            LOGGER.log(Level.ERROR, "Gets articles failed", e);
+
+            throw new ServiceException(e);
+        } finally {
+            Stopwatchs.end();
+        }
+
+        final int pageCount = result.optJSONObject(Pagination.PAGINATION).optInt(Pagination.PAGINATION_PAGE_COUNT);
+
+        final JSONObject pagination = new JSONObject();
+        ret.put(Pagination.PAGINATION, pagination);
+
+        final int windowSize = Symphonys.getInt("latestArticlesWindowSize");
+
+        final List<Integer> pageNums = Paginator.paginate(currentPageNum, fetchSize, pageCount, windowSize);
+        pagination.put(Pagination.PAGINATION_PAGE_COUNT, pageCount);
+        pagination.put(Pagination.PAGINATION_PAGE_NUMS, (Object) pageNums);
+
+        final JSONArray data = result.optJSONArray(Keys.RESULTS);
+        final List<JSONObject> articles = CollectionUtils.<JSONObject>jsonArrayToList(data);
+
+        try {
+            organizeArticles(avatarViewMode, articles);
+        } catch (final RepositoryException e) {
+            LOGGER.log(Level.ERROR, "Organizes articles failed", e);
+
+            throw new ServiceException(e);
+        }
+
+        //final Integer participantsCnt = Symphonys.getInt("latestArticleParticipantsCnt");
+        //genParticipants(articles, participantsCnt);
+        ret.put(Article.ARTICLES, (Object) articles);
+
+        return ret;
+    }
+
+    public JSONObject getTopicArticles(final int avatarViewMode, final int sortMode,
+                                        final int currentPageNum, final int fetchSize, final String topicTitle)
+            throws ServiceException {
+        final JSONObject ret = new JSONObject();
+
+        Query query = makeRecentDefaultQuery(currentPageNum, fetchSize);
+        query.setFilter(new PropertyFilter(Article.ARTICLE_TOPIC_ID, FilterOperator.EQUAL, topicTitle));
 
         JSONObject result = null;
 

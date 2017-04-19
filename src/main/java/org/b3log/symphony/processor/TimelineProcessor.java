@@ -26,18 +26,23 @@ import org.b3log.latke.servlet.annotation.RequestProcessing;
 import org.b3log.latke.servlet.annotation.RequestProcessor;
 import org.b3log.latke.servlet.renderer.freemarker.AbstractFreeMarkerRenderer;
 import org.b3log.symphony.model.Common;
+import org.b3log.symphony.model.Topic;
 import org.b3log.symphony.model.UserExt;
 import org.b3log.symphony.processor.advice.AnonymousViewCheck;
 import org.b3log.symphony.processor.advice.PermissionGrant;
 import org.b3log.symphony.processor.advice.stopwatch.StopwatchEndAdvice;
 import org.b3log.symphony.processor.advice.stopwatch.StopwatchStartAdvice;
+import org.b3log.symphony.repository.TopicRepository;
 import org.b3log.symphony.service.DataModelService;
 import org.b3log.symphony.service.TimelineMgmtService;
+import org.b3log.symphony.service.TopicService;
 import org.b3log.symphony.util.Symphonys;
+import org.json.JSONObject;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -72,6 +77,12 @@ public class TimelineProcessor {
     @Inject
     private TimelineMgmtService timelineMgmtService;
 
+    @Inject
+    private TopicService topicService;
+
+    @Inject
+    private TopicRepository topicRepository;
+
     /**
      * Shows timeline.
      *
@@ -96,6 +107,9 @@ public class TimelineProcessor {
         dataModel.put(Common.SELECTED, Common.TIMELINE);
 
         final int avatarViewMode = (int) request.getAttribute(UserExt.USER_AVATAR_VIEW_MODE);
+
+        List<JSONObject> allTopics = topicService.getAllTopics();
+        dataModel.put(Topic.ALL_TOPICS, allTopics);
 
         dataModelService.fillRandomArticles(avatarViewMode, dataModel);
         dataModelService.fillSideHotArticles(avatarViewMode, dataModel);
