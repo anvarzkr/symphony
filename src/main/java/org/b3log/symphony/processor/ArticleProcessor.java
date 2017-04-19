@@ -215,6 +215,9 @@ public class ArticleProcessor {
     @Inject
     private DataModelService dataModelService;
 
+    @Inject
+    private TopicService topicService;
+
     /**
      * Checks article title.
      *
@@ -425,6 +428,9 @@ public class ArticleProcessor {
         dataModel.put("imgMaxSize", imgMaxSize);
         final long fileMaxSize = Symphonys.getLong("upload.file.maxSize");
         dataModel.put("fileMaxSize", fileMaxSize);
+
+        List<JSONObject> allTopics = topicService.getAllTopics();
+        dataModel.put(Topic.ALL_TOPICS,allTopics);
 
         fillDomainsWithTags(dataModel);
 
@@ -833,6 +839,7 @@ public class ArticleProcessor {
         final String ip = Requests.getRemoteAddr(request);
         final String ua = request.getHeader("User-Agent");
         final boolean isAnonymous = requestJSONObject.optBoolean(Article.ARTICLE_ANONYMOUS, false);
+        final String arcticleTopicId = requestJSONObject.optString(Article.ARTICLE_TOPIC_ID);
         final int articleAnonymous = isAnonymous
                 ? Article.ARTICLE_ANONYMOUS_C_ANONYMOUS : Article.ARTICLE_ANONYMOUS_C_PUBLIC;
         final boolean syncWithSymphonyClient = requestJSONObject.optBoolean(Article.ARTICLE_SYNC_TO_CLIENT, false);
@@ -845,6 +852,7 @@ public class ArticleProcessor {
         article.put(Article.ARTICLE_TYPE, articleType);
         article.put(Article.ARTICLE_REWARD_CONTENT, articleRewardContent);
         article.put(Article.ARTICLE_REWARD_POINT, articleRewardPoint);
+        article.put(Article.ARTICLE_TOPIC_ID, arcticleTopicId);
         article.put(Article.ARTICLE_IP, "");
         if (StringUtils.isNotBlank(ip)) {
             article.put(Article.ARTICLE_IP, ip);
@@ -1019,6 +1027,7 @@ public class ArticleProcessor {
         final int articleType = requestJSONObject.optInt(Article.ARTICLE_TYPE, Article.ARTICLE_TYPE_C_NORMAL);
         final String articleRewardContent = requestJSONObject.optString(Article.ARTICLE_REWARD_CONTENT);
         final int articleRewardPoint = requestJSONObject.optInt(Article.ARTICLE_REWARD_POINT);
+        final String articleTopicId = requestJSONObject.optString(Article.ARTICLE_TOPIC_ID);
         final String ip = Requests.getRemoteAddr(request);
         final String ua = request.getHeader("User-Agent");
 
@@ -1031,6 +1040,7 @@ public class ArticleProcessor {
         article.put(Article.ARTICLE_TYPE, articleType);
         article.put(Article.ARTICLE_REWARD_CONTENT, articleRewardContent);
         article.put(Article.ARTICLE_REWARD_POINT, articleRewardPoint);
+        article.put(Article.ARTICLE_TOPIC_ID,articleTopicId);
         article.put(Article.ARTICLE_IP, "");
         if (StringUtils.isNotBlank(ip)) {
             article.put(Article.ARTICLE_IP, ip);

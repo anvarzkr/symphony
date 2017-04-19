@@ -14,14 +14,6 @@
         <div class="main">
             <div class="wrapper">
                 <div class="content fn-clear">
-                    <div>
-                        <select>
-                            <option value="allTopics">All</option>
-                            <#list allTopics as topic>
-                                <option value="${topic.topicTitle}">${topic.topicTitle}</option>
-                            </#list>
-                        </select>
-                    </div>
                     <#if 0 < stickArticles?size> 
                     <div class="module">
                         <div class="article-list list">
