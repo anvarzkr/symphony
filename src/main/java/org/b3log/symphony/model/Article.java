@@ -66,6 +66,10 @@ public final class Article {
      */
     public static final String ARTICLE_AUTHOR_ID = "articleAuthorId";
 
+    public static final String ARTICLE_TOPIC_ID = "articleTopicId";
+
+    public static final String ARTICLE_TOPIC_TITLE = "artilceTopicTitle";
+
     /**
      * Key of article comment count.
      */

@@ -187,6 +187,9 @@ public class InitMgmtService {
     @Inject
     private UserQueryService userQueryService;
 
+    @Inject
+    private TopicRepository topicRepository;
+
     /**
      * Initializes Sym if first time setup.
      */
@@ -582,6 +585,48 @@ public class InitMgmtService {
             defaultCommenter.put(User.USER_ROLE, UserExt.DEFAULT_CMTER_ROLE);
             defaultCommenter.put(UserExt.USER_STATUS, UserExt.USER_STATUS_C_VALID);
             userMgmtService.addUser(defaultCommenter);
+
+            // Add topics
+            JSONObject topic = new JSONObject();
+            topic.put(Keys.OBJECT_ID, Topic.TOPIC_ENTARTAINMENT);
+            topic.put(Topic.TOPIC_TITLE, Topic.TOPIC_ENTARTAINMENT);
+            topicRepository.add(topic);
+
+            topic = new JSONObject();
+            topic.put(Keys.OBJECT_ID, Topic.TOPIC_FOOD);
+            topic.put(Topic.TOPIC_TITLE, Topic.TOPIC_FOOD);
+            topicRepository.add(topic);
+
+            topic = new JSONObject();
+            topic.put(Keys.OBJECT_ID, Topic.TOPIC_HEALTH);
+            topic.put(Topic.TOPIC_TITLE, Topic.TOPIC_HEALTH);
+            topicRepository.add(topic);
+
+            topic = new JSONObject();
+            topic.put(Keys.OBJECT_ID, Topic.TOPIC_HOBBY);
+            topic.put(Topic.TOPIC_TITLE, Topic.TOPIC_HOBBY);
+            topicRepository.add(topic);
+
+            topic = new JSONObject();
+            topic.put(Keys.OBJECT_ID, Topic.TOPIC_IT);
+            topic.put(Topic.TOPIC_TITLE, Topic.TOPIC_IT);
+            topicRepository.add(topic);
+
+            topic = new JSONObject();
+            topic.put(Keys.OBJECT_ID, Topic.TOPIC_NATURE);
+            topic.put(Topic.TOPIC_TITLE, Topic.TOPIC_NATURE);
+            topicRepository.add(topic);
+
+            topic = new JSONObject();
+            topic.put(Keys.OBJECT_ID, Topic.TOPIC_POLITICS);
+            topic.put(Topic.TOPIC_TITLE, Topic.TOPIC_POLITICS);
+            topicRepository.add(topic);
+
+            topic = new JSONObject();
+            topic.put(Keys.OBJECT_ID, Topic.TOPIC_OTHER);
+            topic.put(Topic.TOPIC_TITLE, Topic.TOPIC_OTHER);
+            topicRepository.add(topic);
+
 
             // Add tags
             String tagTitle = Symphonys.get("systemAnnounce");

@@ -137,6 +137,8 @@ public final class SymphonyServletListener extends AbstractServletListener {
 
         JdbcRepository.dispose();
 
+
+
         LOGGER.info("Initialized the context");
 
         Stopwatchs.end();
