@@ -1366,6 +1366,11 @@
                     "length": 255
                 },
                 {
+                    "name": "articleTopicId",
+                    "type": "String",
+                    "length": 19
+                },
+                {
                     "name": "articleAuthorId",
                     "type": "String",
                     "length": 19
@@ -1581,6 +1586,21 @@
                     "name": "emotionType",
                     "type": "int",
                     "description": "0: emoji"
+                }
+            ]
+        },
+        {
+            "name": "topic",
+            "keys": [
+                {
+                    "name": "oId",
+                    "type": "String",
+                    "length": 19
+                },
+                {
+                    "name": "topicTitle",
+                    "type": "String",
+                    "length": 50
                 }
             ]
         }

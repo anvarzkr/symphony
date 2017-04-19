@@ -37,6 +37,7 @@ import org.b3log.latke.util.Stopwatchs;
 import org.b3log.latke.util.Strings;
 import org.b3log.symphony.model.Article;
 import org.b3log.symphony.model.Common;
+import org.b3log.symphony.model.Topic;
 import org.b3log.symphony.model.UserExt;
 import org.b3log.symphony.processor.advice.AnonymousViewCheck;
 import org.b3log.symphony.processor.advice.PermissionGrant;
@@ -117,6 +118,9 @@ public class IndexProcessor {
      */
     @Inject
     private TimelineMgmtService timelineMgmtService;
+
+    @Inject
+    private TopicService topicService;
 
     /**
      * Shows md guide.
@@ -300,6 +304,9 @@ public class IndexProcessor {
 
         dataModel.put(Common.STICK_ARTICLES, stickArticles);
         dataModel.put(Common.LATEST_ARTICLES, allArticles);
+
+        List<JSONObject> allTopics = topicService.getAllTopics();
+        dataModel.put(Topic.ALL_TOPICS, allTopics);
 
         final JSONObject pagination = result.getJSONObject(Pagination.PAGINATION);
         final int pageCount = pagination.optInt(Pagination.PAGINATION_PAGE_COUNT);
