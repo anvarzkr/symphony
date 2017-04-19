@@ -97,6 +97,12 @@ public class SearchQueryService {
             matchTitle.put("match", title);
             orClause.put(matchTitle);
 
+            final JSONObject topic = new JSONObject();
+            topic.put(Article.ARTICLE_TOPIC_ID,keyword);
+            final JSONObject matchTopic = new JSONObject();
+            matchTopic.put("match",topic);
+            orClause.put(matchTopic);
+
             reqData.put("query", q);
             reqData.put("from", currentPage);
             reqData.put("size", pageSize);

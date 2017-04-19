@@ -588,8 +588,8 @@ public class InitMgmtService {
 
             // Add topics
             JSONObject topic = new JSONObject();
-            topic.put(Keys.OBJECT_ID, Topic.TOPIC_ENTARTAINMENT);
-            topic.put(Topic.TOPIC_TITLE, Topic.TOPIC_ENTARTAINMENT);
+            topic.put(Keys.OBJECT_ID, Topic.TOPIC_ENTERTAINMENT);
+            topic.put(Topic.TOPIC_TITLE, Topic.TOPIC_ENTERTAINMENT);
             topicRepository.add(topic);
 
             topic = new JSONObject();

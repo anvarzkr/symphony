@@ -16,6 +16,13 @@
             <div class="form fn-flex-1 fn-clear">
                 <input type="text" id="articleTitle" autocomplete="off" tabindex="1"<#if requisite> readonly disabled</#if>
                        value="<#if article??>${article.articleTitle}</#if>" placeholder="${titleLabel}" />
+                <div>
+                    <select id="articleTopic">
+                    <#list allTopics as topic>
+                        <option value="${topic.topicTitle}">${topic.topicTitle}</option>
+                    </#list>
+                    </select>
+                </div>
                 <div class="article-content">
                     <textarea id="articleContent" tabindex="2"
                               placeholder="<#if !article?? && 1 == articleType>${addDiscussionEditorPlaceholderLabel}</#if>${addArticleEditorPlaceholderLabel}"><#if article??>${article.articleContent?html}</#if><#if at??>@${at}</#if></textarea>
